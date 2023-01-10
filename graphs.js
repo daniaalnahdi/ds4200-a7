@@ -57,7 +57,7 @@ svg
 
 // Function for creating stacked bar chart
 const createStackedBarPlot = (csvFileName, graphTitle) => {
-  d3.csv(csvFileName + '.csv', function (data) {
+  d3.csv('/data/' + csvFileName + '.csv', function (data) {
     // Add title to the graph
     svg
       .append('text')
@@ -233,7 +233,7 @@ const updateClassesToDisplay = () => {
   //clear current classes
   classesToDisplay = [];
 
-  d3.csv('df_alum1.csv', function (data) {
+  d3.csv('/data/df_alum1.csv', function (data) {
     data.forEach((d) => {
       selectedWords.forEach((word) => {
         if (d.words.includes(word)) {

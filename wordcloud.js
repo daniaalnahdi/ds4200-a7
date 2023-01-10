@@ -34,7 +34,7 @@ wordsTitle
 
   // Function to render the word cloud
 const createWordCloud = () => {
-  d3.csv('words_filtered_no_negative.csv', function (data) {
+  d3.csv('/data/words_filtered_no_negative.csv', function (data) {
     svg2
       .append('g')
       .attr(
@@ -147,7 +147,7 @@ createWordCloud();
 // Updates the  word cloud
 const updateWordsToHighlight = () => {
   //Marks words to be highlighted
-  d3.csv('df_alum1.csv', function (data) {
+  d3.csv('/data/df_alum1.csv', function (data) {
     // Resets word color in word cloud
     svg2.selectAll('text').classed('highlighted', false);
     wordsTitle.select('#words-subtitle').remove();
