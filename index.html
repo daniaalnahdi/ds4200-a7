@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>MPF Alumni Experience Analysis</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+<link rel="stylesheet" href="styles.css">
+
+<body>
+    <!-- creates the main navigation bar that will hold the individual navigation items -->
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <!-- creates the navigation bar that allows the user to interact with the website and go to the desired section -->
+        <div id="navbar-content" class="navbar-menu">
+            <div class="navbar-end">
+                <a href="#motivation" class="navbar-item">
+                    Motivation
+                </a>
+                <a href="#data" class="navbar-item">
+                    Data
+                </a>
+                <a href="#task-analysis" class="navbar-item">
+                    Task Analysis
+                </a>
+                <a href="#design-process" class="navbar-item">
+                    Design Process
+                </a>
+                <a href="#final-viz" class="navbar-item">
+                    Visualizations
+                </a>
+                <a href="#data-analysis" class="navbar-item">
+                    Data Analysis
+                </a>
+                <a href="#conclusion" class="navbar-item">
+                    Conclusion
+                </a>
+            </div>
+        </div>
+    </nav>
+    <!-- Adds the project title and class with formating -->
+    <header class="hero is-dark">
+        <div class="hero-body">
+            <div class="container">
+                <p class="title">
+                    MPF Alumni Experience Analysis
+                </p>
+                <p class="subtitle">
+                    DS 4200: Information Presentation & Visualization
+                </p>
+            </div>
+        </div>
+    </header>
+    <main class="container">
+        <!-- Creates the Motivation section of the website -->
+        <section id="motivation" class="section content is-normal">
+            <h2>💥 Motivation</h2>
+            <div class="box">
+                <p>This project is a data visualization solution for Massachusetts Promise Fellowship (MPF).
+                    It focuses on two primary factors: the number of classes and service sites taken/served by MPF
+                    Fellows, and their
+                    evaluation of their experience as MPF Fellows in multiple dimensions (such as professional
+                    development
+                    and self-growth). The visualization aims to highlight the relationship between these two factors.
+                    This
+                    information will be extracted from data provided by MPF that their alumnus have filled out on a
+                    survey.</p>
+                <p>The goal of this project is to use feedbacks from previous alumnus to provide insights for MPF that
+                    can assist with their recruitment
+                    efforts and plans for improving their
+                    program. These insights can potentially be extrapolated to the parent organization AmeriCorps to
+                    further inform their overall programming. </p>
+            </div>
+        </section>
+        <!-- Creates the Data section of the website -->
+        <section id="data" class="section content is-normal">
+            <h2 class="is-size-3">🗂️ Data</h2>
+            <div class="box">
+                <p>The primary dataset used in this project was the De-Identified Survey Responses from Alumnus for
+                    2020.
+                    This dataset provided a detailed understanding of alumus' MPF experiences and feedbacks during the
+                    classes/years
+                    they served at MPF.
+                </p>
+                <p>There were a wide variety of challenges that were present when cleaning a dataset like this. Here are
+                    a subset of the steps taken to
+                    improve these datasets. First, we needed to parse the time data into a consistent format that could
+                    be plotted as datetime objects,
+                    rather than a string. The next step was to convert some of the categorical data into ordinal data.
+                    For example, ordering values from
+                    Strongly Agree to Strongly Disagree as ordinal instead of the categorical format it was presented
+                    in. In other words, it would make sense
+                    that Neutral would lie between these values.</p>
+                <p>The next type of data encountered in bulk was text-based data originating from the written feedbacks
+                    from alumnus.
+                    In order to meaningfully utilize these feedback, each response was mapped to a corresponding
+                    sentiment score. Traditional data cleaning steps for text data, such as Tokenization, removing stop
+                    words, and etc. were utilized.</p>
+                <p>Other issues encountered in the data cleaning process included handling a significant quantity of
+                    NaN values. In a Machine Learning setting, it would make sense to simply impute these
+                    values. However, this could be
+                    misleading in a data visualization setting, so these values were relegated to a
+                    separate category. Additionally, there were
+                    some alumni survey responses that were duplicates and had to be removed. The sites served were also
+                    manually inputted by the Alums filling
+                    out the response so they had to be parsed (if served more than one location) and cleaned so that
+                    different names referring to the same site
+                    are grouped together. Similarly, the classes/years served by alumnus were also grouped together and
+                    had to be seperated in order
+                    to be used in the visualization. </p>
+            </div>
+        </section>
+        <!-- Creates the Task Analysis section of the website -->
+        <section id="task-analysis" class="section content is-normal">
+            <h2 class="is-size-3">📝 Task Analysis</h2>
+            <div class="box">
+
+                <!-- Creates a table that holds the Tasks to be completed -->
+                <table class="table is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>Index (ID #)</th>
+                            <th>"Domain" Task</th>
+                            <th>Analytic Task (Low-level, “Query”)</th>
+                            <th>Search Task (Mid-level)</th>
+                            <th>Analyze Task (High-level)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> 1 </td>
+                            <td>What is the relationship between specific MPF experiences (survey questions that start
+                                with My MPF Experience…) and the class/classes served? </td>
+                            <td>Correlate</td>
+                            <td>Lookup</td>
+                            <td>Present</td>
+                        </tr>
+                        <tr>
+                            <td> 2 </td>
+                            <td>What is the relationship between a specific class and MPF experiences?
+                            </td>
+                            <td>Correlate</td>
+                            <td>Browse</td>
+                            <td>Present</td>
+                        </tr>
+                        <tr>
+                            <td> 3 </td>
+                            <td>What is the relationship between key words mentioned in experience (written response) to
+                                classes served?</td>
+                            <td>Correlate</td>
+                            <td>Explore</td>
+                            <td>Discover</td>
+                        </tr>
+                        <tr>
+                            <td> 4 </td>
+                            <td>Which MPF experience responses had the lowest agreement level?</td>
+                            <td>Find Extremum</td>
+                            <td>Browse</td>
+                            <td>Discover</td>
+                        </tr>
+                        <tr>
+                            <td> 5 </td>
+                            <td>Relationship between a specific class and a specific MPF Experience.</td>
+                            <td>Correlate</td>
+                            <td>Lookup</td>
+                            <td>Present</td>
+                        </tr>
+                        <tr>
+                            <td> 6 </td>
+                            <td>What is the median/mean number of classes/service sites related to MPF Experiences?</td>
+                            <td>Characterize Distribution</td>
+                            <td>Browse</td>
+                            <td>Discover</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <!-- Creates the Design Process section of the website -->
+        <section id="design-process" class="section content is-normal">
+            <h2 class="is-size-3">🎨 Design Process</h2>
+            <div class="box">
+
+                <p> For our final visualization, we decided to create a word cloud linked
+                    to a stacked bar chart that can be filtered by various MPF experiences. The terms used in the word
+                    cloud orignated from
+                    the written feedback given by the alumnus in their survey responses. The size of each word reflect
+                    how often
+                    the word was mentioned by all the alumnus. The binned colors used in the word cloud represent the
+                    range of sentiment scores
+                    of each word with words that have a more positive sentiment darker. The stacked bar chart below
+                    represents the alumnus
+                    survey responses for their MPF experience throughout the various class/year served. </p>
+                <p>The design process started with rough sketches by each teammate. Then a finalized digital sketch was
+                    created to mimic the final
+                    result of the visualization. Some design choices include using binned colors for the word cloud for
+                    easier
+                    identification of words with different sentiment scores. The stacked bar chart is designed to have
+                    proportions of
+                    how many Alumnus rated an experience instead of actual counts for easier comparison between the
+                    different class the
+                    Alumni served. </p>
+            </div>
+        </section>
+        <!-- Creates the Final Visualization section of the website -->
+        <section id="final-viz" class="section content is-normal">
+            <h2 class="is-size-3">📊 Final Visualizations</h2>
+            <div class="box">
+                <p>The word cloud was designed to utilize the size channel and color channel to encode both the number
+                    of
+                    occurances of the term and its setiment value, which allows the user to immediatetly see which terms
+                    have been
+                    mentioned the most. The sentiment value (a number between 0 and 1) of a term is the tendency of that
+                    term to appear in sentences with a positive connotations. The higher the number, the more positive
+                    the term.
+
+                </p>
+                <p>As mentioned previously, a stacked bar chart is used to allow a more direct
+                    comparison between
+                    each class/year served by alumnus. This can allow the user to more easily compare the various MPF
+                    experiences year
+                    over year. The stacked bar chart also uses the color channel to clearly differentiate between the
+                    percentage
+                    of various ratings for each MPF experience. The package used for coding is mainly D3.js libary.</p>
+                <h3>How to Interact with the Visualization</h3>
+                <p> The stacked bar chart can be filtered
+                    by different experiences with the dropdown menu. The stacked bar chart can be additionally filtered
+                    by clicking on words in the
+                    word cloud above. Similarly, a bar can be clicked to look at the corresponding words for that
+                    class/year
+                    in the word cloud. </p>
+            </div>
+            <div class="box">
+                <button id='clear-selected-words-btn' class='button is-outlined'>Clear Selected Words</button>
+                <!-- Word Cloud dynamically added  via JavaScript Here-->
+                <div id="words-legend"></div>
+                <div id="words-title"></div>
+                <div id="wordcloud"></div>
+            </div>
+            <div class="box">
+                <button id='clear-selected-bars-btn' class='button is-outlined'>Clear Selected Classes</button>
+                <!-- Bar graphs dynamically added  via JavaScript Here-->
+                <div id="graphs">
+
+                    <div class='select'>
+                        <select id="dropdown">
+                            <option value="1_mentor_young_people"
+                                data-title="Strengthened my ability to support and mentor young people">Mentor Young
+                                People
+                            </option>
+                            <option value="2_justice_system"
+                                data-title="Broadened my view of social justice and systems of oppression">Justice
+                                System &
+                                Opression</option>
+                            <option value="3_job_opportunity"
+                                data-title="'Helped me get a job or professional opportunity'">Job Opportunities
+                            </option>
+                            <option value="4_career_path"
+                                data-title="Opened up a career path I may not have otherwise considered">Career Path
+                            </option>
+                            <option value="5_education_goals" data-title="Supported my educational goals">Education
+                                Goals
+                            </option>
+                            <option value="6_fulltime_job" data-title="Helped me prepare for a full time career">
+                                Fulltime
+                                Job</option>
+                            <option value="7_professional_development"
+                                data-title="Gave me valuable professional development skills">Professional Development
+                            </option>
+                            <option value="8_self_worth" data-title="Helped increase my confidence and self-worth">
+                                Self-Worth</option>
+                            <option value="9_self_care"
+                                data-title="Encouraged me to create and maintain self-care practices">Self-Care</option>
+                        </select>
+                    </div>
+                    <div id="graphs-legend">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Creates the Data Analysis section of the website -->
+        <section id="data-analysis" class="section content is-normal">
+            <h2 class="is-size-3">🔎 Data Analysis</h2>
+            <div class="box">
+                <h3 class="is-size-5"> MPF Experience Feedback Received </h3>
+                <p>In order to evaluate the overall sentiment towards MPF, a sentiment analysis was
+                    conducted and a Word Cloud of terms was constructed. Overall, it appeared that the
+                    feedback for MPF was overwhelmingly positive. The vast majority of terms used had
+                    either positive or neutral sentiment. There were a couple terms that initially
+                    appeared negative (e.g. “Traumatic”) that were filtered out as they were actually
+                    being referred to in a positive light (i.e. "starting a career in helping those with
+                    Traumatic brain injuries"). The words with neutral sentiment were filtered out resulting in a
+                    Word Cloud of the most popular terms.
+                </p>
+                <h3 class="is-size-5"> MPF Experience</h3>
+                <p> By analyzing the stacked bar chart, alumnus tends to respond more positively (higher agreement
+                    level)
+                    when asked about MPF experiences that are more directly related to the work they are performing at
+                    MPF such
+                    as Mentor Young People and Professional Development. The experiences that has the lowest agreement
+                    level
+                    tend to be those that are less likely to be directly impacted by the work performed. Such as
+                    Self-care and Self-worth.
+                    There also does not seem to have a clear trend between the various classes/year served and the MPF
+                    experiences.
+                </p>
+            </div>
+        </section>
+        <!-- Creates the Conclusion section of the website -->
+        <section id="conclusion" class="section content is-normal">
+            <h2 class="is-size-3">📄 Conclusion</h2>
+            <div class="box">
+
+                <p>In conclusion, most alumni have reported a positive experience by indicating they “Strongly Agree” or
+                    “Agree” with their MPF experience survey questions. Additionally, MPF experiences had
+                    the most positive responses when the experience is directly related to the work the alumnus
+                    performed and more dispersed with experiences that are more related to
+                    individual development of the fellows. Improvements/future-work would include further refining the
+                    word cloud
+                    and adding an option to show not only the positive feedback terms but also terms that might have a
+                    more negative
+                    setiment to it. This can allow further analysis to possibly identify areas of improvement.
+                </p>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>Dania Alnahdi, Alice Fu, Michael Steinberg.</p>
+        <p class="container">Built with <a href="https://bulma.io/" target="blank" rel="noopener noreferrer">Bulma</a>
+            and <a href='https://d3js.org/' target="blank" rel="noopener noreferrer">D3.js</a>.
+        </p>
+    </footer>
+    <script type="text/javascript" src="graphs.js"></script>
+    <script type="text/javascript" src="wordcloud.js"></script>
+</body>
+
+</html>

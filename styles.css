@@ -1,0 +1,61 @@
+@import 'https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css';
+
+body {
+  scroll-behavior: smooth;
+}
+
+section h2 {
+  margin: 1rem 0;
+}
+
+footer {
+  text-align: center;
+}
+
+#graphs div {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#graphs,
+#wordcloud,
+#words-title,
+#words-legend {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.word,
+rect {
+  cursor: pointer;
+}
+
+.tooltip {
+  position: absolute;
+  text-align: center;
+  padding: 1em;
+  width: 200px;
+  background: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+#graphs .tooltip {
+  width: 100px;
+}
+
+.tooltip span {
+  font-size: 12px;
+}
+
+.highlighted {
+  fill: red !important;
+}
+
+rect.stroke,
+text.stroke {
+  stroke: black;
+  stroke-width: 1px;
+}
